@@ -1,0 +1,31 @@
+{
+  "name": "diegosorribas/mezzio-smartyrenderer",
+  "description": "Smarty integration for Mezzio",
+  "license": "BSD-3-Clause",
+  "authors": [
+    {
+      "name": "diego-sorribas",
+      "email": "diego.sorribas@solcre.com"
+    }
+  ],
+  "keywords": [
+    "laminas",
+    "mezzio",
+    "http",
+    "middleware",
+    "psr",
+    "psr-7",
+    "smarty"
+  ],
+  "require": {
+    "php": "^7.4",
+    "mezzio/mezzio-template": "^2.0",
+    "psr/container": "^1.0",
+    "smarty/smarty": "3.1.*"
+  },
+  "autoload": {
+    "psr-4": {
+      "SolcreMezzio\\Smarty\\": "src/"
+    }
+  }
+}

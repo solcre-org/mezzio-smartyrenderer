@@ -59,6 +59,11 @@ class SmartyRenderer implements TemplateRendererInterface
      */
     public function getPaths(): array
     {
+        $templateDir = $this->template->getTemplateDir();
+        if (\is_array($templateDir)) {
+            return $templateDir;
+        }
+
         $paths = [];
         $paths[0] = $this->template->getTemplateDir();
         return $paths;

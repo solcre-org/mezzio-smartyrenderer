@@ -21,7 +21,7 @@ class SmartyEnvironmentFactory
      */
     public function __invoke(ContainerInterface $container): Smarty
     {
-        $config = $container->has('config') ? $container->get('config') : [];
+        $config = $container->get('config');
 
         if (! is_array($config) && ! $config instanceof ArrayObject) {
             throw new Exception\InvalidConfigException(sprintf(
@@ -32,11 +32,23 @@ class SmartyEnvironmentFactory
         }
         $smarty = new Smarty();
 
-        $smarty->setCompileDir($config['compile_dir']);
-        $smarty->setCacheDir($config['cache_dir']);
+        $compileDir = $config['smarty']['compile_dir'];
+        if (empty($compileDir)) {
+            throw new Exception\InvalidConfigException('Compile dir can not be empty');
+        }
 
+        $smarty->setCompileDir($compileDir);
+        $smarty->setCacheDir($config['smarty']['cache_dir'] ?? '/tmp');
+
+        $allPaths = isset($config['templates']['paths']) && is_array($config['templates']['paths']) ? $config['templates']['paths'] : [];
+        if (! isset($allPaths['templates'])) {
+            throw new Exception\InvalidConfigException('Templates directory can not be empty');
+        }
+        $smarty->setTemplateDir($allPaths['templates'] ?? []);
+
+        $smartyOptions = $config['smarty']['smarty_options'] ?? [];
         // set Smarty engine options
-        foreach ($config['smarty_options'] as $key => $value) {
+        foreach ($smartyOptions as $key => $value) {
             $setter = 'set' . str_replace(
                     ' ',
                     '',

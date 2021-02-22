@@ -26,5 +26,4 @@ class SmartyRendererFactory
     {
         return new SmartyRenderer($container->get(Smarty::class));
     }
-
 }
